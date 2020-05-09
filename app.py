@@ -62,9 +62,9 @@ class DemoModel(FlaskForm):
     submit = SubmitField('Отправить на обработку')
 
 app = Flask(__name__)
-#csrf = CSRFProtect(app)
+csrf = CSRFProtect(app)
 
-@app.route('/', methods=['GET', 'POST'])
+@csrf.route('/', methods=['GET', 'POST'])
 def render_main():
     form = DemoModel()
     if request.method == "POST":
