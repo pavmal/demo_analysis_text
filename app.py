@@ -90,5 +90,5 @@ def render_about():
 
 
 if __name__ == '__main__':
-    app.config['SECRET_KEY'] = sec_key
+    app.config['SEC_KEY'] = sec_key
     app.run()  # for gunicorn server
