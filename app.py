@@ -61,12 +61,8 @@ class DemoModel(FlaskForm):
     analis_text = TextAreaField('Текст для анализа тональности', validators=[Length(min=0, max=250)])
     submit = SubmitField('Отправить на обработку')
 
-
-csrf = CSRFProtect()
-def create_app():
-    app = Flask(__name__)
-    csrf.init_app(app)
-
+app = Flask(__name__)
+csrf = CSRFProtect(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def render_main():
