@@ -4,7 +4,9 @@ from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import Length
+from flask_wtf.csrf import CSRFProtect
 
+SECRET_KEY = os.urandom(32)
 
 class SentimentClassifier(object):
     def __init__(self):
@@ -60,7 +62,10 @@ class DemoModel(FlaskForm):
     submit = SubmitField('Отправить на обработку')
 
 
-app = Flask(__name__)
+csrf = CSRFProtect()
+def create_app():
+    app = Flask(__name__)
+    csrf.init_app(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -88,6 +93,5 @@ def render_about():
 
 
 if __name__ == '__main__':
-    SECRET_KEY = os.urandom(32)
     app.config['SECRET_KEY'] = SECRET_KEY
     app.run()  # for gunicorn server
