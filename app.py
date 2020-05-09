@@ -79,7 +79,7 @@ def render_main():
         return render_template('demo.html', form=form, result=None)
 
 
-@app.route('/about/')
+@csrf.route('/about/')
 def render_about():
     """
     Представление страницы "О сервисе"
@@ -89,5 +89,5 @@ def render_about():
 
 
 if __name__ == '__main__':
-    app.config['SECRET_KEY'] = SECRET_KEY
-    app.run()  # for gunicorn server
+    csrf.config['SECRET_KEY'] = SECRET_KEY
+    csrf.run()  # for gunicorn server
