@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Demo of model working</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+<main class="container mt-3">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h2 class="display-3 text-center">Demo of model working</h2>
+            <p class="lead text-center font-weight-bold">★ Это страничка для проверки работы модели по анализу
+                тональности отзыва ★</p>
+            <p class="lead text-center font-weight-bold">Фонд развития онлайн-образования Курс 6 Неделя 4 Анализ данных:
+                финальный проект</p>
+            <p class="lead text-center font-weight-bold">Задача - Анализ тональности отзывов</p>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <form action="/" method="POST">
+            <p class="text-center">
+                {{ form.analis_text(cols=80, rows=3, placeholder='Ваш текст для анализа...', autofocus=True,
+                required=True) }}<br>
+            </p>
+            <p class="text-center"><a href="/" class="btn btn-link btn-lg m-2">{{ form.submit() }}</a></p>
+        </form>
+        {% if result != None %} {% include 'result.html' %} {% endif %}
+    </div>
+</main>
+
+<footer class="container my-4">
+    &copy; Copyright 2020 by <a href="/about/">Malinkin Pavel</a>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
