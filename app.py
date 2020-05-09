@@ -64,7 +64,7 @@ class DemoModel(FlaskForm):
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
-@csrf.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def render_main():
     form = DemoModel()
     if request.method == "POST":
@@ -79,7 +79,7 @@ def render_main():
         return render_template('demo.html', form=form, result=None)
 
 
-@csrf.route('/about/')
+@app.route('/about/')
 def render_about():
     """
     Представление страницы "О сервисе"
@@ -89,5 +89,5 @@ def render_about():
 
 
 if __name__ == '__main__':
-    csrf.config['SECRET_KEY'] = SECRET_KEY
-    csrf.run()  # for gunicorn server
+    app.config['SECRET_KEY'] = SECRET_KEY
+    app.run()  # for gunicorn server
