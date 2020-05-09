@@ -4,7 +4,6 @@ from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import Length
-from flask_debugtoolbar import DebugToolbarExtension
 
 sec_key = os.environ['SEC_KEY']
 
@@ -71,9 +70,9 @@ def render_main():
     form = DemoModel()
     if request.method == "POST":
         user_text = form.analis_text.data
-        print(user_text)
+        #print(user_text)
         predictions = classifier.get_prediction_message(user_text).split(',')
-        print(predictions)
+        #print(predictions)
         prediction_message = 'Ваш отзыв классифицирован как ' + predictions[1] + \
                              ' и относится к целевому классу с вероятностью: ' + predictions[2] + r'%'
         return render_template('demo.html', form=form, result=prediction_message)
@@ -92,8 +91,4 @@ def render_about():
 
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = sec_key
-    app.run('127.0.0.1', 7799, debug=True)
-
-    #    app.run()  # for gunicorn server
-
-toolbar = DebugToolbarExtension(app)
+    app.run()  # for gunicorn server
