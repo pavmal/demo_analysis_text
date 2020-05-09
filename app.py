@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import Length
 
-sec_key = os.environ['SEC_KEY']
+SECRET_KEY = os.urandom(32)
 
 
 class SentimentClassifier(object):
@@ -90,5 +90,5 @@ def render_about():
 
 
 if __name__ == '__main__':
-    app.config['SECRET_KEY'] = 'My first demo project'
+    app.config['SECRET_KEY'] = SECRET_KEY
     app.run()  # for gunicorn server
