@@ -6,7 +6,7 @@ from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import Length
 from flask_wtf.csrf import CSRFProtect
 
-#SECRET_KEY = os.urandom(32)
+SECRET_KEY = os.urandom(32)
 
 class SentimentClassifier(object):
     def __init__(self):
@@ -62,8 +62,8 @@ class DemoModel(FlaskForm):
     submit = SubmitField('Отправить на обработку')
 
 app = Flask(__name__)
-app.secret_key = 'my-super-secret-phrase'
-csrf = CSRFProtect(app)
+app.secret_key = SECRET_KEY
+#csrf = CSRFProtect(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def render_main():
