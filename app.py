@@ -1,83 +1,78 @@
 import os, time
-import pickle
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import Length
-from flask_wtf.csrf import CSRFProtect
+import models
 
+# sec_key = os.environ['SEC_KEY']
 SECRET_KEY = os.urandom(32)
-
-class SentimentClassifier(object):
-    def __init__(self):
-        with open('model.pkl', 'rb') as f:
-            self.model = pickle.load(f)
-        self.classes_dict = {0: "negative", 1: "positive", -1: "prediction error"}
-
-    @staticmethod
-    def get_probability_words(probability):
-        if probability < 0.55:
-            return "neutral or uncertain"
-        if probability < 0.7:
-            return "probably"
-        if probability > 0.95:
-            return "certain"
-        else:
-            return ""
-
-    def predict_text(self, text):
-        try:
-            return self.model.predict(text)[0], self.model.predict_proba(text)[0][1]
-        except:
-            print("prediction error")
-            return -1, 0.8
-
-    def predict_list(self, list_of_texts):
-        try:
-            return self.model.predict([list_of_texts]), self.model.predict_proba([list_of_texts])
-        except:
-            print('prediction error')
-            return None
-
-    def get_prediction_message(self, text):
-        text_ls = []
-        text_ls.append(text)
-        text = text_ls
-        prediction = self.predict_text(text)
-        class_prediction = prediction[0]
-        prediction_probability = prediction[1]
-        return self.get_probability_words(prediction_probability) + "," + self.classes_dict[
-            class_prediction] + "," + str(round(prediction_probability * 100, 2))
-
 
 print("Preparing classifier")
 start_time = time.time()
-classifier = SentimentClassifier()
+spam_classifier = models.SentimentClassifier()
+tone_classifier = models.ToneSentimentClassifier()
 print("Classifier is ready")
 print(time.time() - start_time, "seconds")
 
 
 class DemoModel(FlaskForm):
-    analis_text = TextAreaField('Текст для анализа тональности', validators=[Length(min=0, max=250)])
+    """
+    analis_text: поле формы для ввода текста для анализа
+    submit: кнопка отправки текста на обработку
+    """
+    analis_text = TextAreaField('Текст для анализа на спам', validators=[Length(min=0, max=250)])
+    analis_text_tone = TextAreaField('Текст для анализа тональности', validators=[Length(min=0, max=250)])
     submit = SubmitField('Отправить на обработку')
+
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
-#csrf = CSRFProtect(app)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def render_main():
     form = DemoModel()
     if request.method == "POST":
+
+        # for SPAM
         user_text = form.analis_text.data
-        #print(user_text)
-        predictions = classifier.get_prediction_message(user_text).split(',')
-        #print(predictions)
-        prediction_message = 'Ваш отзыв классифицирован как ' + predictions[1] + \
-                             ' и относится к целевому классу с вероятностью: ' + predictions[2] + r'%'
-        return render_template('demo.html', form=form, result=prediction_message)
+        if user_text != '':
+            predictions = spam_classifier.get_prediction_message(user_text).split(',')
+            if predictions[1] == 'positive':  # class 1 - SPAM
+                class_res = 'SPAM'
+                persent = predictions[2]
+            elif predictions[1] == 'negative':
+                class_res = 'NOT SPAM'
+                persent = str(100 - float(predictions[2]))
+            else:
+                class_res = 'NEUTRAL'
+                persent = predictions[2]
+            prediction_message = 'Ваш текст классифицирован как: {} c вероятностью: {} %'.format(class_res, persent)
+        else:
+            prediction_message = None
+
+        # for tone analysis
+        user_text_tone = form.analis_text_tone.data
+        if user_text_tone != '':
+            predictions_tone = tone_classifier.get_prediction_message(user_text_tone).split(',')
+            if predictions_tone[1] == 'positive':  # class 1 - positive feedback
+                class_res_tone = 'POSITIVE FEEDBACK'
+                persent_tone = predictions_tone[2]
+            elif predictions_tone[1] == 'negative':
+                class_res_tone = 'NEGATIVE FEEDBACK'
+                persent_tone = str(100 - float(predictions_tone[2]))
+            else:
+                class_res_tone = 'NEUTRAL'
+                persent_tone = predictions_tone[2]
+            prediction_message_tone = 'Ваш отзыв классифицирован как: {} c вероятностью: {} %'.format(class_res_tone,
+                                                                                                      persent_tone)
+        else:
+            prediction_message_tone = None
+
+        return render_template('demo.html', form=form, result=prediction_message, result_tone=prediction_message_tone)
     else:
-        return render_template('demo.html', form=form, result=None)
+        return render_template('demo.html', form=form, result=None, result_tone=None)
 
 
 @app.route('/about/')
@@ -90,5 +85,5 @@ def render_about():
 
 
 if __name__ == '__main__':
-    #app.config['SECRET_KEY'] = SECRET_KEY
-    app.run()  # for gunicorn server
+    app.run('127.0.0.1', 7799, debug=True)
+# app.run()  # for gunicorn server

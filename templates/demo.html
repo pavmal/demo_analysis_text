@@ -12,24 +12,36 @@
 <main class="container mt-3">
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h2 class="display-3 text-center">Demo of model working</h2>
-            <p class="lead text-center font-weight-bold">★ Это страничка для проверки работы модели по анализу
+            <h2 class="display-3 text-center text-success">Demo of model working</h2>
+            <p class="lead text-center font-weight-bold text-primary">★ Это страничка для проверки работы модели по анализу
                 тональности отзыва ★</p>
             <p class="lead text-center font-weight-bold">Фонд развития онлайн-образования Курс 6 Неделя 4 Анализ данных:
                 финальный проект</p>
-            <p class="lead text-center font-weight-bold">Задача - Анализ тональности отзывов</p>
+            <p class="lead text-center font-weight-bold">Задача - Анализ тональности отзывов (+ проверка текста на спам)</p>
+            <p class="lead text-center font-weight-bold text-danger">Внимание: модель обучена на словаре английских слов</p>
         </div>
     </div>
 
-    <div class="container mt-4">
+    <div class="container mt-2">
         <form action="/" method="POST">
-            <p class="text-center">
-                {{ form.analis_text(cols=100, rows=3, placeholder='Ваш текст для анализа...', autofocus=True,
-                required=True) }}<br>
-            </p>
+            <div class="row">
+                <div class="col-6">
+                    <p class="text-center">
+                        {{ form.analis_text(cols=50, rows=4, placeholder='Ваш текст для анализа на SPAM...',
+                        autofocus=True) }}<br>
+                    </p><br>
+                    {% if result != None %} {% include 'result.html' %} {% endif %}
+                </div>
+                <div class="col-6">
+                    <p class="text-center">
+                        {{ form.analis_text_tone(cols=50, rows=4, placeholder='Ваш текст для анализа на тональности...')
+                        }}<br>
+                    </p><br>
+                    {% if result_tone != None %} {% include 'result_tone.html' %} {% endif %}
+                </div>
+            </div>
             <p class="text-center"><a href="/" class="btn btn-link btn-lg m-2">{{ form.submit() }}</a></p>
         </form>
-        {% if result != None %} {% include 'result.html' %} {% endif %}
     </div>
 </main>
 
