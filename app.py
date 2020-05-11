@@ -85,5 +85,5 @@ def render_about():
 
 
 if __name__ == '__main__':
-    app.run('127.0.0.1', 7799, debug=True)
-# app.run()  # for gunicorn server
+    #app.run('127.0.0.1', 7799, debug=True)
+    app.run()  # for gunicorn server
