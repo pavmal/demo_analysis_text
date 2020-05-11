@@ -1,8 +1,8 @@
 import pickle
-import spacy
+#import spacy
 import numpy as np
 
-nlp = spacy.load('en_core_web_lg')
+#nlp = spacy.load('en_core_web_lg')
 
 
 class SentimentClassifier(object):
