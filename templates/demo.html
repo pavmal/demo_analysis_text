@@ -9,52 +9,85 @@
 </head>
 
 <body>
-<main class="container mt-3">
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h2 class="display-3 text-center text-success">Demo of model working</h2>
-            <p class="lead text-center font-weight-bold text-primary">★ Это страничка для проверки работы модели по
-                анализу
-                тональности отзыва ★</p>
-            <p class="lead text-center font-weight-bold">Фонд развития онлайн-образования Курс 6 Неделя 4 Анализ данных:
-                финальный проект</p>
-            <p class="lead text-center font-weight-bold">Задача - Анализ тональности отзывов (+ проверка текста на
-                спам)</p>
-            <p class="lead text-center font-weight-bold text-danger">Внимание: модель обучена на словаре английских
-                слов</p>
-            <p class="text-center font-weight-bold">Пример текста со спамом: FreeMsg: Txt: CALL to No: 86888 & claim
-                your reward of 3 hours talk time to use from your phone</p>
-            <p class="text-center font-weight-bold">Комментарии: Анализ на SPAM работает. К сожалению, мешок слов для
-                анализа тональности текста оказался слишком велик, поэтому на сайте отзывы оцениваются как нейтральные.
-                Для получения рекомендаций по настройке полноценной работы модели на локальном ПК напиши мне на e-mail:
-                pavmalin@mail.ru</p>
-
+<main class="container mt-1">
+    <div class="row">
+        <div class="col">
+            <div class="card-1">
+                <h6 class="display-3 text-center text-success">Demo of model working</h6>
+                <p class="lead text-center font-weight-bold text-primary">★ Это страничка для проверки работы моделей по
+                    анализу тональности отзывов ★</p>
+                <p class="lead text-center font-weight-bold">Фонд развития онлайн-образования Курс 6 Неделя 4 Анализ
+                    данных: финальный проект</p>
+                <p class="lead text-center font-weight-bold">Задача - Анализ тональности отзывов (+ проверка текста на
+                    спам)</p>
+                <p class="lead text-center font-weight-bold text-danger">Внимание: модель обучена на словаре английских
+                    слов</p>
+                <p class="text-center font-weight-bold">Пример текста со спамом: FreeMsg: Txt: CALL to No: 86888 & claim
+                    your reward of 3 hours talk time to use from your phone</p>
+                <p class="text-center font-weight-bold">Комментарии: Анализ на SPAM работает. К сожалению, мешок слов
+                    для анализа тональности текста оказался слишком велик, поэтому на сайте отзывы оцениваются как
+                    нейтральные. Для получения рекомендаций по настройке полноценной работы модели на локальном ПК
+                    напиши мне на e-mail: pavmalin@mail.ru</p>
+            </div>
         </div>
     </div>
-
-    <div class="container mt-2">
-        <form action="/" method="POST">
-            <div class="row">
-                <div class="col-6">
-                    <p class="text-center">
-                        {{ form.analis_text(cols=50, rows=4, placeholder='Ваш текст для анализа на SPAM...',
-                        autofocus=True) }}<br>
-                    </p><br>
-                    {% if result != None %} {% include 'result.html' %} {% endif %}
-                </div>
-                <div class="col-6">
-                    <p class="text-center">
-                        {{ form.analis_text_tone(cols=50, rows=4, placeholder='Ваш текст для анализа на тональности...')
-                        }}<br>
-                    </p><br>
-                    {% if result_tone != None %} {% include 'result_tone.html' %} {% endif %}
-                </div>
-            </div>
-            <p class="text-center"><input type="submit" class="btn btn-primary btn-block mt-4" value="Отправить на обработку"></p>
-            <!--p class="text-center"><a href="/" class="btn btn-link btn-lg m-2">{{ form.submit() }}</a></p-->
-        </form>
-    </div>
 </main>
+
+<div class="container mt-2">
+    <form action="/" method="POST">
+        <div class="row">
+            <div class="col-6">
+                <p class="text-center">
+                    {{ form.analis_text(cols=60, rows=4, placeholder='Ваш текст для анализа на SPAM...',
+                    autofocus=True) }}<br>
+                </p><br>
+                {% if result != None %} {% include 'result.html' %} {% endif %}
+            </div>
+            <div class="col-6">
+                <p class="text-center">
+                    {{ form.analis_text_tone(cols=60, rows=4, placeholder='Ваш текст для анализа тональности отзывов на английском языке...')
+                    }}<br>
+                </p><br>
+                {% if result_tone != None %} {% include 'result_tone.html' %} {% endif %}
+            </div>
+        </div>
+        <p class="text-center"><input type="submit" class="btn btn-primary btn-block mt-4"
+                                      value="Отправить на обработку"></p>
+        <!--p class="text-center"><a href="/" class="btn btn-link btn-lg m-2">{{ form.submit() }}</a></p-->
+    </form>
+</div>
+
+<div class="container mt-2">
+    <div class="row">
+        <div class="col">
+            <div class="card-2">
+                <h6 class="display-3 text-center text-success">Demo2 of model working</h6>
+                <p class="lead text-center font-weight-bold">Фонд развития онлайн-образования Курс 6 Неделя 7 Анализ
+                    данных: финальный проект</p>
+                <p class="lead text-center font-weight-bold">Задача - Анализ тональности отзывов о сотовых телефонах</p>
+                <p class="lead text-center font-weight-bold text-danger">Внимание: модель обучена на словаре русских
+                    слов</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-2">
+    <form action="/" method="POST">
+        <div class="row">
+            <div class="col">
+                <p class="text-center">
+                    {{ form.phone_tone(cols=80, rows=4, placeholder='Ваш отзыв о сотовом телефоне на русском языке...
+Или скопируйте сюда текст с отзывом с какого-нибудь сайта') }}<br>
+                </p><br>
+                {% if result_phone != None %} {% include 'result_phone.html' %} {% endif %}
+            </div>
+        </div>
+        <p class="text-center"><input type="submit" class="btn btn-primary btn-block mt-4"
+                                      value="Отправить на обработку"></p>
+    </form>
+</div>
+
 
 <footer class="container my-4">
     &copy; Copyright 2020 by <a href="/about/">Malinkin Pavel</a>
